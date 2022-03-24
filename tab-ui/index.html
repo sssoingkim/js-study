@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab UI</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="tab_wrap">
+    <ul role="tablist" class="tabmenu">
+      <li role="presentation" id="recipe" class="tab_item">
+        <button type="button" role="tab" class="btn_tab active" aria-selected="true">레시피</button>
+      </li>
+      <li role="presentation" id="living" class="tab_item">
+        <button type="button" role="tab" class="btn_tab" aria-selected="false">리빙</button>
+      </li>
+      <li role="presentation" id="library" class="tab_item">
+        <button type="button" role="tab" class="btn_tab" aria-selected="false">책방</button>
+      </li>
+      <li role="presentation" id="economy" class="tab_item">
+        <button type="button" role="tab" class="btn_tab" aria-selected="false">경제M</button>
+      </li>
+    </ul>
+  </div>
+  <div class="panels">
+    <div id="recipe_panel" class="panel_item open">
+      <h3>레시피</h3>
+    </div>
+    <div id="living_panel" class="panel_item">
+      <h3>리빙</h3>
+    </div>
+    <div id="library_panel" class="panel_item">
+      <h3>책방 베스트셀러</h3>
+      <div class="books_wrap">
+        <ul class="books_list">
+          <li class="book_item">
+            <button type="button" class="btn_accordion" aria-expanded="false"><span class="text">1. 불편한 편의점(40만부 기념 벚꽃 에디션)</span><span class="icon_open">▼</span></button>
+            <div class="content_accordion">
+              <span class="information">김호연 지음 | 나무옆의자 | 2021년 04월 20일 출간</span>
+              <p class="description">김호연 작가의 장편소설 『불편한 편의점』이 누적 판매 40만부 돌파를 기념하여 벚꽃 에디션으로 새 단장 했습니다. 2021년 4월에 출간되어 전 연령층의 폭넓은 공감을 얻으며 소설 읽기 바람을 일으킨 『불편한 편의점』의 열기는 지금도 현재진행형입니다. “읽는 내내 마음이 따뜻하고 먹먹했다” “눈가에 미소와 눈물이 떠나지 않았다” “시간 가는 줄 모르고 몰입해서 읽었다” “작은 친절과 소통의 소중함을 일깨워준 책” “힘든 시기를 버티게 해준 책” 등의 독자 리뷰 하나하나가 책이 가진 힘을 말해줍니다. 청파동 골목 모퉁이의 작은 가게, 서울역 노숙인이었던 정체불명의 야간 알바가 지키는 곳, 불편한데 자꾸 가고 싶은 봄날의 편의점으로 여러분을 초대합니다.</p>
+            </div>
+          </li>
+        </ul>
+        <li class="book_item">
+          <button type="button" class="btn_accordion" aria-expanded="false"><span class="text">2. 이어령의 마지막 수업</span><span class="icon_open">▼</span></button>
+          <div class="content_accordion">
+            <span class="information">김지수 , 이어령 지음 | 열림원 | 2021년 10월 28일 출간</span>
+            <p class="description">시대의 지성 이어령과 ‘인터스텔라’ 김지수의 ‘라스트 인터뷰’<br>
+              삶과 죽음에 대한 마지막 인생 수업<br>
+              이 시대의 대표지성 이어령이 마지막으로 들려주는 삶과 죽음에 대한 가장 지혜로운 이야기가 담긴 책이다. 오랜 암 투병으로 죽음을 옆에 둔 스승은 사랑, 용서, 종교, 과학 등 다양한 주제를 넘나들며, 우리에게 “죽음이 생의 한가운데 있다는 것”을 낮고 울림 있는 목소리로 전달한다.</p>
+          </div>
+        </li>
+        <li class="book_item">
+          <button type="button" class="btn_accordion" aria-expanded="false"><span class="text">3. 물고기는 존재하지 않는다</span><span class="icon_open">▼</span></button>
+          <div class="content_accordion">
+            <span class="information">룰루 밀러 지음 | 정지인 옮김 | 곰출판 | 2021년 12월 17일 출간</span>
+            <p class="description">‘방송계의 퓰리처상’ 피버디상 수상자 룰루 밀러의 사랑과 혼돈, 과학적 집착에 관한 경이롭고도 충격적인 데뷔작!<br>
+              집착에 가까울 만큼 자연계에 질서를 부여하려 했던 19세기 어느 과학자의 삶을 흥미롭게 좇아가는 이 책은 어느 순간 독자들을 혼돈의 한복판으로 데려가서 우리가 믿고 있던 삶의 질서에 관해 한 가지 의문을 제기한다. “물고기가 존재하지 않는다는 것은 엄연한 하나의 사실이다. 그렇다면 우리는 또 무엇을 잘못 알고 있을까?” 하고 말이다. 누군가에게는 이 질문이 살아가는 데 아무런 영향을 미치지 않을 수도 있다. 하지만 세상을 바라보는 “진실한 관계들”에 한층 가까이 다가가기 위해 노력하는 사람들에게는 분명 이 책이 놀라운 영감과 어느 한쪽으로도 치우치지 않는 폭넓은 시야를 제공해줄 것이다.</p>
+          </div>
+        </li>
+      </div>
+    </div>
+    <div id="economy_panel" class="panel_item">
+      <h3>경제M</h3>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="js/tab.js"></script>
+  <script type="text/javascript" src="js/accordion.js"></script>
+  <!--script태그를 head에 쓸 땐 document.onload 이벤트 받은 후 함수 수행-->
+</body>
+</html>

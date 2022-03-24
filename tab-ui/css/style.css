@@ -1,0 +1,94 @@
+/*base*/
+body, ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+button {
+  padding: 0;
+  border: none;
+}
+
+/*tab*/
+.tabmenu {
+  white-space: nowrap;
+}
+.tabmenu:after {
+  display: block;
+  clear: both;
+  content: '';
+}
+.tab_item {
+  float: left;
+  width: 25%;
+  text-align: center;
+}
+.btn_tab {
+  display: block;
+  width: 100%;
+  background-color: #aaa;
+  color: #fff;
+  line-height: 2;
+  cursor: pointer;
+}
+.btn_tab:hover {
+  background-color: #bbb;
+}
+.btn_tab.active {
+  background-color: #fff;
+  color: #222;
+  font-weight: bold;
+}
+
+.panel_item {
+  display: none;
+  min-height: 500px;
+  padding: 20px;
+}
+.panel_item.open {
+  display: block;
+}
+
+/*accordion*/
+.book_item {
+  margin-top: 2px;
+}
+.btn_accordion {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  color: #222;
+  text-align: left;
+}
+.btn_accordion:after {
+  display: block;
+  clear: both;
+  content: '';
+}
+.btn_accordion:hover {
+  background-color: #eee;
+}
+.btn_accordion .text {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: bold;
+}
+.btn_accordion .icon_open {
+  float: right;
+  font-size: 16px;
+  line-height: 24px;
+}
+.content_accordion {
+  display: none;
+  padding: 20px 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #222;
+}
+.content_accordion.open {
+  display: block;
+}
