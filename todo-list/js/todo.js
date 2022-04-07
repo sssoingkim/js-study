@@ -27,7 +27,7 @@ const addTodos = (item) => {
   button.setAttribute("type", "button");
   button.classList.add("btn_delete");
   button.innerText = "✕";
-  button.addEventListener("click", deleteTodo)
+  button.addEventListener("click", deleteTodo);
 
   li.appendChild(checkbox);
   li.appendChild(label);
