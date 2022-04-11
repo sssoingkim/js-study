@@ -11,9 +11,12 @@ const onClickDimmed = (e) => {
     closePopup();
   };
 }
+
 const closePopup = () => {
   popup.classList.remove(OPEN_CLASS);
   body.classList.remove(LOCK_CLASS);
+
+  buttonClose.removeEventListener("click", closePopup);
   popup.removeEventListener("click", onClickDimmed);
 }
 
