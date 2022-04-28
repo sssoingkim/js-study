@@ -1,17 +1,17 @@
-const hour = document.querySelector('#hours');
-const min = document.querySelector('#minutes');
-const sec = document.querySelector('#seconds');
+const hourDom = document.querySelector('#hours');
+const minDom = document.querySelector('#minutes');
+const secDom = document.querySelector('#seconds');
 
 class Clock {
   constructor() {}
   getTime() {
     const date = new Date();
 
-    const _hour = date.getHours().toString().padStart(2,'0');
-    const _min = date.getMinutes().toString().padStart(2,'0');
-    const _sec = date.getSeconds().toString().padStart(2,'0');
+    const hour = date.getHours().toString().padStart(2,'0');
+    const min = date.getMinutes().toString().padStart(2,'0');
+    const sec = date.getSeconds().toString().padStart(2,'0');
 
-    return { _hour, _min, _sec}
+    return { hour, min, sec }
   }
 }
 
@@ -19,11 +19,11 @@ window.onload = () => {
   const clock = new Clock();
 
   setInterval(() => {
-    const time = clock.getTime();
+    const { hour, min, sec } = clock.getTime();
 
-    hour.innerText = time._hour;
-    min.innerText = time._min;
-    sec.innerText = time._sec;
+    hourDom.innerText = hour;
+    minDom.innerText = min;
+    secDom.innerText = sec;
   }, 500);
 }
 
