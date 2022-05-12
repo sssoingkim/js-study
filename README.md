@@ -10,3 +10,6 @@
 
 ## 04. CLOCK
 - path: `04.clock/`
+
+## STOPWATCH
+- path: `05.stopwatch/`
