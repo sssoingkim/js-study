@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+.wrap {
+  padding-top: 20px;
+}
+#timer {
+  min-height: 60px;
+  font-size: 50px;
+  line-height: 60px;
+  font-weight: bold;
+  text-align: center;
+}
+.button_wrap {
+  margin-top: 30px;
+  text-align: center;
+}
+.button_wrap button {
+  width: 80px;
+  border: 0px;
+  border-radius: 20px;
+  line-height: 30px;
+  cursor: pointer;
+}
+.button_reset {
+  background-color: #ddd;
+}
+.button_play {
+  background-color: #2BAE66;
+  color: #fff;
+}
+.button_play.stop {
+  background-color: #990011;
+}
+#record-list {
+  max-width: 400px;
+  min-height: 100px;
+  margin: 30px auto 0;
+  padding: 30px;
+  background-color: #fff7f8;
+  border-radius: 10px;
+}
+#record-list li + li {
+  margin-top: 10px;
+}
