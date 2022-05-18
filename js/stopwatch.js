@@ -1,9 +1,17 @@
 class Stopwatch {
-  constructor(TIMER_ID, PLAY_ID, RESET_ID, LIST_ID) {
-    this._timer = document.querySelector(TIMER_ID);
-    this._buttonPlay = document.querySelector(PLAY_ID);
-    this._buttonReset = document.querySelector(RESET_ID);
-    this._recordList = document.querySelector(LIST_ID);
+  constructor(containerId) {
+    this._container = document.querySelector(containerId).innerHTML = `
+      <div id="timer"></div>
+      <div class="button_wrap">
+        <button type="button" id="play" class="button_play">시작</button>
+        <button type="button" id="reset" class="button_reset">초기화</button>
+      </div>
+      <ul id="record-list"></ul>
+    `;
+    this._timer = document.querySelector('#timer');
+    this._buttonPlay = document.querySelector('#play');
+    this._buttonReset = document.querySelector('#reset');
+    this._recordList = document.querySelector('#record-list');
     this._time = 0;
     this._flag = false;
     this._timerInterval = null;
@@ -30,14 +38,30 @@ class Stopwatch {
   }
   recordTime() {
     const { hour, min, sec } = this.updateTime(this._time);
+
     const list = document.createElement('li');
     list.setAttribute('class', 'list_item');
-    list.innerHTML = `${hour} : ${min} : ${sec}`;
+    
+    const buttonRemove = document.createElement('button');
+    buttonRemove.setAttribute('type', 'button');
+    buttonRemove.setAttribute('class', 'button_remove');
+    buttonRemove.innerText = '삭제';
+    buttonRemove.addEventListener('click', this.removeTime.bind(this));
+    list.appendChild(buttonRemove);
+
+    const span = document.createElement('span');
+    span.setAttribute('class', 'times');
+    span.innerHTML = `${hour} : ${min} : ${sec}`;
+    list.appendChild(span);
+
     this._recordList.appendChild(list);
+  }
+  removeTime(e) {
+    e.currentTarget.parentNode.remove();
   }
   start() {
     this._buttonPlay.classList.add(this._STOP_CLASS);
-    this._buttonPlay.innerText = '중지';
+    this._buttonPlay.innerText = '기록';
 
     this._timerInterval = setInterval(() => {
       const { hour, min, sec } = this.updateTime(++this._time);
@@ -57,8 +81,11 @@ class Stopwatch {
     const { hour, min, sec } = this.updateTime(this._time);
     this.appendTimer(hour, min, sec);
 
+    this._buttonPlay.classList.remove(this._STOP_CLASS);
     this._buttonPlay.innerText = '시작';
     this._recordList.innerHTML = '';
+
+    this._flag = false;
   }
   play() {
     if(this._flag) this.stop();
@@ -69,6 +96,6 @@ class Stopwatch {
 }
 
 window.onload = () => {
-  const stopwatch = new Stopwatch('#timer', '#play', '#reset', '#record-list');
+  const stopwatch = new Stopwatch('#wrap');
   stopwatch.init();
 }
