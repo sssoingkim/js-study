@@ -13,3 +13,6 @@
 
 ## STOPWATCH
 - path: `05.stopwatch/`
+
+## ALARM
+- path: `06.alarm/`
