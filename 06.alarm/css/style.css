@@ -136,16 +136,20 @@ html, body {
   padding-left: 4px;
   vertical-align: middle;
 }
-.button_submit {
-  display: block;
-  width: 100%;
+.button_wrap {
   margin-top: 20px;
+  font-size: 0;
+  line-height: 0;
+  white-space: nowrap;
+}
+.button_wrap button {
+  width: 50%;
   background-color: rgba(0, 0, 0, 0.05);;
   border: none;
   font-size: 15px;
   line-height: 30px;
   cursor: pointer;
 }
-.button_submit:hover {
+.button_wrap button:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }

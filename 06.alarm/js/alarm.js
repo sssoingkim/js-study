@@ -1,6 +1,9 @@
+const INTERVAL_MS = 500;
+
 class Alarm {
   constructor(id) {
-    this._container = document.querySelector(id).innerHTML = `
+    this._container = document.querySelector(id);
+    this._container.innerHTML = `
       <button type="button" id="register" class="button_register">⏰ 알람 등록</button>
       <div class="clock_area">
         <span id="clock" class="clock_board"></span>
@@ -22,7 +25,10 @@ class Alarm {
           <span class="units">
             <input type="text" id="sec" class="input_time"><label for="sec" class="label_unit">초</label>
           </span>
-          <button type="button" class="button_submit">등록</button>
+          <div class="button_wrap">
+            <button type="button" class="button_submit">등록</button>
+            <button type="button" class="button_close">닫기</button>
+          </div>
         </div>
       </div>
     `;
@@ -31,13 +37,19 @@ class Alarm {
     this._buttonRegister = document.querySelector('#register');
     this._modalRequest = document.querySelector('#request-modal');
     this._buttonSubmit = document.querySelector('.button_submit');
+    this._buttonClose = document.querySelector('.button_close');
     this._alarmList = document.querySelector('#alarm-list');
-    this._currentHour = 0;
-    this._currentMin = 0;
-    this._currentSec = 0;
-    this._inputHour = 0;
-    this._inputMin = 0;
-    this._inputSec = 0;
+    this._currentTime = {
+      'hour': 0,
+      'min': 0,
+      'sec': 0
+    }
+    this._inputTime = {
+      'hour': 0,
+      'min': 0,
+      'sec': 0
+    }
+    this._registerList = [];
     this._clockInterval = null;
     this._compareInterval = null;
   }
@@ -46,111 +58,159 @@ class Alarm {
     this.updateTime();
     this._buttonRegister.addEventListener('click', this.openRequestModal.bind(this));
     this._buttonNow.addEventListener('click', this.updateTime.bind(this));
+    this._buttonSubmit.addEventListener('click', this.registerAlarm.bind(this));
+    this._buttonClose.addEventListener('click', this.closeRequestModal.bind(this));
+  }
+  destroy() {
+    this._buttonRegister.removeEventListener('click', this.openRequestModal.bind(this));
+    this._buttonNow.removeEventListener('click', this.updateTime.bind(this));
+    this._buttonSubmit.removeEventListener('click', this.registerAlarm.bind(this));
+    this._buttonClose.removeEventListener('click', this.closeRequestModal.bind(this));
   }
   getTimeNow() {
     const nowDate = new Date();
 
-    this._currentHour = nowDate.getHours();
-    this._currentMin = nowDate.getMinutes();
-    this._currentSec = nowDate.getSeconds();
+    this._currentTime.hour = nowDate.getHours();
+    this._currentTime.min = nowDate.getMinutes();
+    this._currentTime.sec = nowDate.getSeconds();
 
-    this.updateBoard(this._currentHour, this._currentMin, this._currentSec);
+    this.updateBoard(this._currentTime);
+  }
+  formatTime(number) {
+    return number.toString().padStart(2,'0');
   }
   updateTime() {
     this._clockInterval = setInterval(() => {
       this.getTimeNow();
-    }, 500);
+    }, INTERVAL_MS);
+  }
+  updateBoard(obj) {
+    this._clock.innerHTML = `${this.formatTime(obj.hour)} : ${this.formatTime(obj.min)} : ${this.formatTime(obj.sec)}`;
   }
   openRequestModal() {
     this._modalRequest.style.display = 'block';
-    this._buttonSubmit.addEventListener('click', this.registerAlarm.bind(this));
   }
+  closeRequestModal() {
+    this._modalRequest.style.display = 'none';
+  }
+  // 두번째 알람 등록 시, registerAlarm이 두 번 호출되고, 두번째엔 빈값이 들어간다!
   registerAlarm() {
-    this._inputHour = this.checkError('hour', document.querySelector('#hour').value);
-    this._inputMin = this.checkError('min', document.querySelector('#min').value);
-    this._inputSec = this.checkError('sec', document.querySelector('#sec').value);
+    const hourDom = document.querySelector('#hour');
+    const minDom = document.querySelector('#min');
+    const secDom = document.querySelector('#sec');
 
-    if(!this.checkPast(this._inputHour, this._inputMin, this._inputSec)) {
+    let hourValue = hourDom.value;
+    let minValue = minDom.value;
+    let secValue = secDom.value;
+
+    console.log('input value: ', hourValue, minValue, secValue);
+    console.log('current value: ', this._currentTime);
+
+    if(!this.isValidTime(hourValue, minValue, secValue)) {
+      alert("올바른 시간 값을 입력하세요.")
+    } 
+    else if(!this.isFuture(this._currentTime.hour, this._currentTime.min, this._currentTime.sec, hourValue, minValue, secValue)) {
       alert("지난 시간입니다. 다시 입력하세요.");
-    } else {
-      document.querySelector('#hour').value = '';
-      document.querySelector('#min').value = '';
-      document.querySelector('#sec').value = '';
+    }
+    else {
+      this._inputTime.hour = hourValue;
+      this._inputTime.min = minValue;
+      this._inputTime.sec = secValue;
+
+      const tempTime = {
+        hour: hourValue,
+        min: minValue,
+        sec: secValue
+      }
+
+      console.log('input time : ', this._inputTime);
+
+      hourDom.value = '';
+      minDom.value = '';
+      secDom.value = '';
   
-      this.updateBoard(this._inputHour, this._inputMin, this._inputSec);
-      this.setAlarmList(this._inputHour, this._inputMin, this._inputSec);
+      this.addListArray(tempTime);
+      this.updateBoard(this._inputTime);
+      this.setAlarmList(this._inputTime);
       
       clearInterval(this._clockInterval);
-      this._buttonSubmit.removeEventListener('click', this.registerAlarm.bind(this));
-      this._modalRequest.style.display = 'none';
+      this.closeRequestModal();
     }
   }
-  formatingTime(number) {
-    return number.toString().padStart(2,'0');
+  addListArray(obj) {
+    this._registerList.push(obj);
+    this._registerList.sort();
+    console.log(this._registerList);
   }
-  updateBoard(hour, min, sec) {
-    this._clock.innerHTML = `${this.formatingTime(hour)} : ${this.formatingTime(min)} : ${this.formatingTime(sec)}`;
-  }
-  setAlarmList(hour, min, sec) {
+  setAlarmList(obj) {
     const li = document.createElement('li');
     li.setAttribute('class', 'list_item');
     
     const span = document.createElement('span');
     span.setAttribute('class', 'time');
-    span.innerHTML = `${this.formatingTime(hour)} : ${this.formatingTime(min)} : ${this.formatingTime(sec)}`
+    span.innerHTML = `${this.formatTime(obj.hour)} : ${this.formatTime(obj.min)} : ${this.formatTime(obj.sec)}`
     li.appendChild(span);
 
     const button = document.createElement('button');
     button.setAttribute('type', 'button');
     button.setAttribute('class', 'button_remove');
     button.innerHTML = '삭제';
-    button.addEventListener('click', function() {
-      this._inputHour = null;
-      this._inputMin = null;
-      this._inputSec = null;
-      this.parentNode.remove();
-      console.log('Remove&inputed ' + this._inputHour, this._inputMin, this._inputSec);
+    button.addEventListener('click', (e) => {
+      this._inputTime.hour = null;
+      this._inputTime.min = null;
+      this._inputTime.sec = null;
+
+      clearInterval(this._compareInterval);
+      e.currentTarget.parentNode.remove();
+      //배열에서도 삭제
     });
     li.appendChild(button);
 
     this._alarmList.appendChild(li);
+
+    this.compareTime(li);
   }
-  compareTime() {
-    //compareTime 메소드를 호출한 적이 없는데 왜 작동하지..?ㅎㅎ
+  compareTime(item) {
     this._compareInterval = setInterval(() => {
-      console.log('Interval&inputed ' + this._inputHour, this._inputMin, this._inputSec);
-      // 알람 삭제했을때 button에 넣어준 삭제 함수에서 null 값을 넣었는데 console.log에 여전히 값이 찍혀나옴. this._inputHour, ... 이 값들은 어떻게 업데이트 시켜주지? 
-      if(this._currentHour == this._inputHour && this._currentMin == this._inputMin && this._currentSec == this._inputSec) {
+      if(this._currentTime.hour == this._registerList[0].hour && this._currentTime.min == this._registerList[0].min && this._currentTime.sec == this._registerList[0].sec) {
         this.alertAlarm();
-        li.remove();
+        this._registerList.shift();
+        item.remove();
       }
-    }, 500);
+    }, INTERVAL_MS);
   }
   alertAlarm() {
     alert("RING⏰ RING⏰ RING⏰");
+    
+    //배열에서도 삭제
     clearInterval(this._compareInterval);
   }
-  checkPast(hour, min, sec) {
-    if(this._currentHour < hour) return true;
-    else if(this._currentHour == hour) {
-      if(this._currentMin < min) return true;
-      else if(this._currentMin == min) {
-        if(this._currentSec < sec) return true;
+  isFuture(baseHour, baseMin, baseSec, hour, min, sec) {
+    console.log("is future: ", hour, min, sec);
+    if(baseHour < hour) return true;
+    else if(baseHour == hour) {
+      if(baseMin < min) return true;
+      else if(baseMin == min) {
+        if(baseSec < sec) return true;
         else return false;
       } else return false;
     } else return false;
   }
-  checkError(type, param) {
-    if(type === 'hour') {
-      if(param > 23) return param = 23;
-      else if(param === null || isNaN(param)) return param = 0;
-      else return Number(param);
-    } else {
-      if(param > 59) return param = 59;
-      else if(param === null || isNaN(param)) return param = 0;
-      else return Number(param);
-    } 
+  isValidTime(hour, min, sec) {
+    if(hour === null || isNaN(hour) || hour < 0 || hour > 23 || min === null || isNaN(min) || min < 0 || min > 59 || sec === null || isNaN(sec) || sec < 0 || sec > 59) return false;
+    else return true;
   }
+  // checkError(type, param) {
+  //   if(type === 'hour') {
+  //     if(param > 23) return param = 23;
+  //     else if(param === null || isNaN(param)) return param = 0;
+  //     else return Number(param);
+  //   } else {
+  //     if(param > 59) return param = 59;
+  //     else if(param === null || isNaN(param)) return param = 0;
+  //     else return Number(param);
+  //   } 
+  // }
 }
 
 window.onload = () => {
@@ -158,13 +218,8 @@ window.onload = () => {
   alarm.init();
 }
 
-
-/* 안되는 부분
-1. 알람을 여러개 등록할 경우 '지난시간'이라고 알림뜸 -> 알람이 제거되어도 동일.
-2. 알람리스트에서 알람을 제거해도 알람이 울림.
-
-
+/*
 해야할 부분
-1. 배열로 알람 여러개 받기
-2. 배열 sorting
+1. 배열 sorting
+2. 배열에서 삭제 하기
 */
