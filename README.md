@@ -11,5 +11,9 @@
 ## 04. CLOCK
 - path: `04.clock/`
 
-## STOPWATCH
+## 05. STOPWATCH
 - path: `05.stopwatch/`
+
+## 06. ALARM
+- path: `06.alarm/`
+- 미완성
