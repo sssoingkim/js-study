@@ -13,3 +13,7 @@
 
 ## STOPWATCH
 - path: `05.stopwatch/`
+
+## STAR-RATING
+- [assignment](https://github.com/devkodeio/the-dom-challenge/blob/main/star-rating/README.md)
+- path: `07.star-rating`
