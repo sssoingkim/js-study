@@ -6,6 +6,14 @@ class Star {
     this._container = document.querySelector(el);
     this._count = count;
     this._getStar = callback;
+    this._init = this.createStar();
+  }
+  destroy() {
+    this.addEvent.buttons.forEach((element, index) => {
+      //이벤트 이렇게 소거하는게 맞나..?ㅠㅠ
+      element.removeEventListener('mouseover', this.changeWhenOver(this.addEvent.buttons, this.addEvent.tempIndex, index));
+      element.removeEventListener('click', this._getStar(index+1));
+    });
   }
   createStar() {
     const button = document.createElement('button');
@@ -17,43 +25,52 @@ class Star {
     icon.classList.add(EMPTY_STAR_CLASS);
     button.appendChild(icon);
     
-    for(var i = 0; i < this._count; i++) {
+    for(let i = 0; i < this._count; i++) {
       this._container.appendChild(button.cloneNode(true));
     }
-    this.changeColor();
+    this.addEvent();
   }
-  changeColor() {
+  addEvent() {
     const buttons = this._container.querySelectorAll('.button_rating');
     let tempIndex = 0;
     let value = 0;
 
     buttons.forEach((element, index) => {
       element.onmouseover = () => {
-        if(tempIndex <= index) {
-          for(var i = 0; i < index+1; i++) {
-            buttons[i].firstChild.classList.replace(EMPTY_STAR_CLASS, FULL_STAR_CLASS);
-          }
-        } else {
-          for(var i = index+1; i < this._count; i++) {
-            buttons[i].firstChild.classList.replace(FULL_STAR_CLASS, EMPTY_STAR_CLASS);
-          }
-        }
-        tempIndex = index;
+        tempIndex = this.changeWhenOver(buttons, tempIndex, index);
       }
       element.onclick = () => {
         value = index;
         this._getStar(index+1);
       }
     });
+
     this._container.onmouseleave = () => {
-      if(tempIndex <= value) {
-        for(var i = tempIndex+1; i <= value; i++) {
-          buttons[i].firstChild.classList.replace(EMPTY_STAR_CLASS, FULL_STAR_CLASS);
-        }
-      } else {
-        for(var i = tempIndex; i > value; i--) {
-          buttons[i].firstChild.classList.replace(FULL_STAR_CLASS, EMPTY_STAR_CLASS);
-        }
+      this.changeWhenLeave(buttons, tempIndex, value);
+    }
+  }
+  changeWhenOver(array, temp, idx) {
+    if(temp <= idx) {
+      for(let i = 0; i < idx+1; i++) {
+        array[i].firstChild.classList.replace(EMPTY_STAR_CLASS, FULL_STAR_CLASS);
+      }
+    } else {
+      for(let i = idx+1; i < this._count; i++) {
+        array[i].firstChild.classList.replace(FULL_STAR_CLASS, EMPTY_STAR_CLASS);
+      }
+    }
+    temp = idx;
+
+    return temp;
+  }
+  changeWhenLeave(array, temp, val) {
+    if(temp <= val) {
+      for(let i = temp+1; i <= val; i++) {
+        array[i].firstChild.classList.replace(EMPTY_STAR_CLASS, FULL_STAR_CLASS);
+      }
+    } else {
+      for(let i = temp; i > val; i--) {
+        array[i].firstChild.classList.replace(FULL_STAR_CLASS, EMPTY_STAR_CLASS);
       }
     }
   }
@@ -63,5 +80,4 @@ function getStar(value) {
   document.getElementById('display-star').innerHTML = value;
 }
 
-const starRating = new Star('#star', 5, getStar);
-starRating.createStar();
+new Star('#star', 5, getStar);
