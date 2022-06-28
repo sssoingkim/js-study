@@ -29,6 +29,11 @@ class Star {
 
     this._container.appendChild(fragment);
   }
+  destroy() {
+    this._container.removeEventListener('mouseover', this.onMouseOver.bind(this));
+    this._container.removeEventListener('mouseleave', this.onMouseLeave.bind(this));
+    this._container.removeEventListener('click', this.onMouseClick.bind(this));
+  }
   fillColor(val) {
     for(let i = 0; i < this._count; i++) {
       if(i < val) {
