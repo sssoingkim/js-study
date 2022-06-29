@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+html {
+  height: 100%;
+}
+body {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#star {
+  flex: none;
+}
+button {
+  padding: 0 2px;
+  background-color: transparent;
+  border: none;
+  font-size: 40px;
+}
+.fa {
+  display: block;
+}
+.fa:before {
+  transition: color 0.2s ease-in;
+}
+.fa-star-o:before {
+  color: #5f6368;
+}
+.fa-star:before {
+  color: #d56e0c;
+}
+#display-star {
+  flex: 0 0 44px;
+  font-size: 40px;
+  line-height: 44px;
+}
