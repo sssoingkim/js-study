@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+#canvas {
+  display: grid;
+  border: 1px solid #aaa;
+}
+#palette {
+  display: grid;
+  border: 1px solid #aaa;
+  border-width: 0 1px 1px;
+}
+.grid_item {
+  border: 1px solid #aaa;
+  aspect-ratio: 1;
+}

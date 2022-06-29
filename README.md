@@ -11,5 +11,10 @@
 ## 04. CLOCK
 - path: `04.clock/`
 
-## STOPWATCH
+## 05. STOPWATCH
 - path: `05.stopwatch/`
+
+
+## 08. PIXEL-ART
+- [assignment]()
+- path: `08.pixel-art`
