@@ -19,6 +19,9 @@ button {
   border: none;
   font-size: 40px;
 }
+.fa {
+  display: block;
+}
 .fa:before {
   transition: color 0.2s ease-in;
 }
