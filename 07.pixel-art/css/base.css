@@ -1,0 +1,75 @@
+@charset "UTF-8";
+/* _base.css */
+
+body,
+div,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+table,
+th,
+td,
+form,
+fieldset,
+legend,
+input,
+textarea,
+button {
+  margin: 0;
+  padding: 0;
+}
+body,
+input,
+textarea,
+select,
+table {
+  font-family: -apple-system, BlinkMacSystemFont, AppleSDGothicNeo, Helvetica, "맑은 고딕", Malgun Gothic, "돋움", Dotum, sans-serif;
+  font-size: 13px;
+}
+body {
+  -webkit-text-size-adjust: none;
+}
+table {
+  border-collapse: collapse;
+}
+img,
+fieldset {
+  border: 0;
+}
+img {
+  vertical-align: top;
+}
+li {
+  list-style: none;
+}
+em,
+address {
+  font-style: normal;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+button {
+  cursor: pointer;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+.blind {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+}
